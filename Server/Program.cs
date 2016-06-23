@@ -17,7 +17,13 @@ namespace InstantMessengerServer
     {
         static void Main(string[] args)
         {
-            Program p = new Program();
+            if(args.Length <= 0)
+            {
+                args = new String[2];
+                args[0] = "127.0.0.1";
+                args[1] = 2000.ToString();
+            }
+            Program p = new Program(args[0], Convert.ToInt32(args[1]));
             Console.WriteLine();
             Console.WriteLine("Press enter to close program.");
             Console.ReadLine();
@@ -27,22 +33,19 @@ namespace InstantMessengerServer
         // You can generate one using my generate_cert script in tools directory (OpenSSL is required).
         public X509Certificate2 cert = new X509Certificate2("server.pfx", "instant");
 
-        // IP of this computer. If you are running all clients at the same computer you can use 127.0.0.1 (localhost). 
-        public IPAddress ip = IPAddress.Parse("127.0.0.1");
-        public int port = 2000;
         public bool running = true;
         public TcpListener server;
 
         public Dictionary<string, UserInfo> users = new Dictionary<string, UserInfo>();  // Information about users + connections info.
 
-        public Program()
+        public Program(string ip, int port)
         {
             Console.Title = "InstantMessenger Server";
             Console.WriteLine("----- InstantMessenger Server -----");
             LoadUsers();
             Console.WriteLine("[{0}] Starting server...", DateTime.Now);
 
-            server = new TcpListener(ip, port);
+            server = new TcpListener(IPAddress.Parse(ip), port);
             server.Start();
             Console.WriteLine("[{0}] Server is running properly!", DateTime.Now);
             
