@@ -10,11 +10,11 @@ using System.Runtime.InteropServices;
 
 namespace InstantMessenger
 {
-    public partial class Form1 : Form
+    public partial class Login : Form
     {
-        IMClient im = new IMClient();
+        public static IMClient im = new IMClient();
 
-        public Form1()
+        public Login()
         {
             InitializeComponent();
 
@@ -117,6 +117,11 @@ namespace InstantMessenger
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             im.Disconnect();
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -23,6 +23,8 @@ namespace InstantMessenger
         {
             UserName = userText.Text;
             Password = passText.Text;
+            Login.im.Server = ipAddr.Text;
+            Login.im.Port = (int)ipPort.Value;
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
         }
 
@@ -31,9 +33,5 @@ namespace InstantMessenger
             this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         }
 
-        private void LogRegForm_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

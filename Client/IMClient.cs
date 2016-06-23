@@ -22,8 +22,8 @@ namespace InstantMessenger
         bool reg;              // Register mode
 
         #region connection stuff
-        public string Server { get { return "localhost"; } }  // Address of server. In this case - local IP address.
-        public int Port { get { return 2000; } }
+        public string Server;  // Address of server. In this case - local IP address.
+        public int Port;
 
         public bool IsLoggedIn { get { return _logged; } }
         public string UserName { get { return _user; } }
