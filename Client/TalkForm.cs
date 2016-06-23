@@ -38,13 +38,8 @@ namespace InstantMessenger
             im.MessageReceived -= receivedHandler;
         }
 
-        private void sendButton_Click(object sender, EventArgs e)
-        {
-            im.SendMessage(sendTo, sendText.Text);
-            talkText.Text += String.Format("[{0}] {1}\r\n", im.UserName, sendText.Text);
-            sendText.Text = "";
-        }
 
+        #region im_x
         bool lastAvail = false;
         void im_UserAvailable(object sender, IMAvailEventArgs e)
         {
@@ -66,16 +61,56 @@ namespace InstantMessenger
         {
             this.BeginInvoke(new MethodInvoker(delegate
             {
+
+                int hour = DateTime.Now.Hour;
+                int min = DateTime.Now.Minute;
+                int sec = DateTime.Now.Second;
+                int xm = 0;
+                if (hour > 12)
+                {
+                    hour -= 12;
+                    xm = 1;
+                }
+                string sxm = "";
+                if (xm == 0) sxm = "AM";
+                if (xm == 1) sxm = "PM";
+                string time = hour + ":" + min + ":" + sec + " " + sxm;
                 if (e.From == sendTo)
                 {
-                    talkText.Text += String.Format("[{0}] {1}\r\n", e.From, e.Message);
+                    talkText.Text += String.Format("[" + time + "] " + "[{0}] {1}\r\n", e.From, e.Message);
                 }
             }));
         }
+        #endregion
 
         private void timer_Tick(object sender, EventArgs e)
         {
             im.IsAvailable(sendTo);
+        }
+
+        private void sendButton_Click(object sender, EventArgs e)
+        {
+            im.SendMessage(sendTo, sendText.Text);
+            int hour = DateTime.Now.Hour;
+            int min = DateTime.Now.Minute;
+            int sec = DateTime.Now.Second;
+            int xm = 0;
+            if (hour > 12)
+            {
+                hour -= 12;
+                xm = 1;
+            }
+            string sxm = "";
+            if (xm == 0) sxm = "AM";
+            if (xm == 1) sxm = "PM";
+            string time = hour + ":" + min + ":" + sec + " " + sxm;
+            talkText.Text += String.Format("[" + time + "] " + "[{0}] {1}\r\n", im.UserName, sendText.Text);
+            sendText.Text = "";
+        }
+
+        private void talkText_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

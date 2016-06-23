@@ -114,6 +114,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "LogRegForm";
             this.Text = "Login/register";
+            this.Load += new System.EventHandler(this.LogRegForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

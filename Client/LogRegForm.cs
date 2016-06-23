@@ -30,5 +30,10 @@ namespace InstantMessenger
         {
             this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         }
+
+        private void LogRegForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

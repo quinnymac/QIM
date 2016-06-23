@@ -26,30 +26,12 @@ namespace InstantMessenger
             im.Disconnected += new EventHandler(im_Disconnected);
         }
 
-        private void registerButton_Click(object sender, EventArgs e)
-        {
-            LogRegForm info = new LogRegForm();
-            if (info.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                im.Register(info.UserName, info.Password);
-                status.Text = "Registering...";
-            }
-        }
-        private void loginButton_Click(object sender, EventArgs e)
-        {
-            LogRegForm info = new LogRegForm();
-            if (info.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                im.Login(info.UserName, info.Password);
-                status.Text = "Login...";
-            }
-        }
-
+        #region im_xOK
         void im_LoginOK(object sender, EventArgs e)
         {
             this.BeginInvoke(new MethodInvoker(delegate
             {
-                status.Text = "Logged in!";
+                TSUsrnLog.Text = "Logged in as " + im.UserName;
                 registerButton.Enabled = false;
                 loginButton.Enabled = false;
                 logoutButton.Enabled = true;
@@ -60,7 +42,7 @@ namespace InstantMessenger
         {
             this.BeginInvoke(new MethodInvoker(delegate
             {
-                status.Text = "Registered!";
+                TSUsrnLog.Text = "Registered! Please log in.";
                 registerButton.Enabled = false;
                 loginButton.Enabled = false;
                 logoutButton.Enabled = true;
@@ -71,21 +53,21 @@ namespace InstantMessenger
         {
             this.BeginInvoke(new MethodInvoker(delegate
             {
-                status.Text = "Login failed!";
+                TSUsrnLog.Text = "Couldn't log in.";
             }));
         }
         void im_RegisterFailed(object sender, IMErrorEventArgs e)
         {
             this.BeginInvoke(new MethodInvoker(delegate
             {
-                status.Text = "Register failed!";
+                TSUsrnLog.Text = "Couldn't register. Try again later.";
             }));
         }
         void im_Disconnected(object sender, EventArgs e)
         {
             this.BeginInvoke(new MethodInvoker(delegate
             {
-                status.Text = "Disconnected!";
+                TSUsrnLog.Text = "Disconnected!";
                 registerButton.Enabled = true;
                 loginButton.Enabled = true;
                 logoutButton.Enabled = false;
@@ -95,7 +77,9 @@ namespace InstantMessenger
                     tf.Close();
             }));
         }
+        #endregion
 
+        #region buttons
         private void logoutButton_Click(object sender, EventArgs e)
         {
             im.Disconnect();
@@ -109,6 +93,26 @@ namespace InstantMessenger
             talks.Add(tf);
             tf.Show();
         }
+
+        private void registerButton_Click(object sender, EventArgs e)
+        {
+            LogRegForm info = new LogRegForm();
+            if (info.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                im.Register(info.UserName, info.Password);
+                TSUsrnLog.Text = "Attempting to register...";
+            }
+        }
+        private void loginButton_Click(object sender, EventArgs e)
+        {
+            LogRegForm info = new LogRegForm();
+            if (info.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                im.Login(info.UserName, info.Password);
+                TSUsrnLog.Text = "Logging in...";
+            }
+        }
+        #endregion
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {

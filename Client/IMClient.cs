@@ -21,6 +21,7 @@ namespace InstantMessenger
         string _pass;          // Password
         bool reg;              // Register mode
 
+        #region connection stuff
         public string Server { get { return "localhost"; } }  // Address of server. In this case - local IP address.
         public int Port { get { return 2000; } }
 
@@ -74,7 +75,9 @@ namespace InstantMessenger
                 bw.Flush();
             }
         }
+        #endregion
 
+        #region events
         // Events
         public event EventHandler LoginOK;
         public event EventHandler RegisterOK;
@@ -119,14 +122,15 @@ namespace InstantMessenger
             if (MessageReceived != null)
                 MessageReceived(this, e);
         }
+        #endregion
 
-        
         TcpClient client;
         NetworkStream netStream;
         SslStream ssl;
         BinaryReader br;
         BinaryWriter bw;
 
+        #region connection
         void SetupConn()  // Setup connection and login
         {
             client = new TcpClient(Server, Port);  // Connect to the server.
@@ -208,7 +212,9 @@ namespace InstantMessenger
 
             _logged = false;
         }
+        #endregion
 
+        #region packet types
         // Packet types
         public const int IM_Hello = 2012;      // Hello
         public const byte IM_OK = 0;           // OK
@@ -222,7 +228,8 @@ namespace InstantMessenger
         public const byte IM_IsAvailable = 8;  // Is user available?
         public const byte IM_Send = 9;         // Send message
         public const byte IM_Received = 10;    // Message received
-        
+        #endregion
+
         public static bool ValidateCert(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             // Uncomment this lines to disallow untrusted certificates.
